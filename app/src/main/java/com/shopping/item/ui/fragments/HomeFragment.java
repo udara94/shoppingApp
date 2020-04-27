@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.shopping.item.BaseApplication;
 import com.shopping.item.R;
 import com.shopping.item.common.CommonUtils;
 import com.shopping.item.common.constants.ApplicationConstants;
@@ -88,14 +89,28 @@ public class HomeFragment extends BaseFragment implements BaseBackPressedListene
 
     @Override
     protected void setUpToolBar() {
-        View mCustomView = getLayoutInflater().inflate(R.layout.custom_actionbar, null);
+        View mCustomView = getLayoutInflater().inflate(R.layout.custom_action_bar_home, null);
         TextView title = (TextView) mCustomView.findViewById(R.id.title);
         mToolBar.addView(mCustomView);
+        mCustomView.findViewById(R.id.shopping_cart).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!BaseApplication.getBaseApplication().isLoadCartSheet()) {
+                    BaseApplication.getBaseApplication().setLoadCartSheet(true);
+                    gotoCartFragment();
+                }
+
+            }
+        });
         title.setTypeface(CommonUtils.getInstance().getFont(getActivity(), ApplicationConstants.FONT_ROBOTO_BOLD));
         title.setText("Ali Express");
         Toolbar parent =(Toolbar) mCustomView.getParent();
         parent.setPadding(0,0,0,0);//for tab otherwise give space in tab
         parent.setContentInsetsAbsolute(0,0);
+    }
+
+    private void gotoCartFragment(){
+        ((MainActivity) getActivity()).addFragment(new CartFragment().newInstance(), CartFragment.getTAG());
     }
 
     @Override

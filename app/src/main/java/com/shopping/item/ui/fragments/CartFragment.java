@@ -5,12 +5,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.shopping.item.BaseApplication;
 import com.shopping.item.R;
 import com.shopping.item.common.CommonUtils;
 import com.shopping.item.common.constants.ApplicationConstants;
@@ -48,6 +51,8 @@ public class CartFragment extends BaseFragment implements BaseBackPressedListene
 
 
     @BindView(R.id.txt_total) TextView txtTotal;
+    @BindView(R.id.btn_checkout) Button btnCheckout;
+    @BindView(R.id.checkout_layout) RelativeLayout checkLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -79,11 +84,30 @@ public class CartFragment extends BaseFragment implements BaseBackPressedListene
             System.out.println("==============>>"+ mItemList);
             cartListAdapter.updateData(mItemList);
 
+            btnCheckout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!BaseApplication.getBaseApplication().isLoadPaymentScreen()) {
+                        BaseApplication.getBaseApplication().setLoadPaymentScreen(true);
+                        gotoPaymentFragment();
+                    }
+                }
+            });
+            txtTotal.setText("Total $"+getTotalPrice());
+        }else {
+            checkLayout.setVisibility(View.GONE);
         }
-        txtTotal.setText("Total $"+getTotalPrice());
+
+
+
+
     }
 
 
+
+    private void gotoPaymentFragment(){
+        ((MainActivity) getActivity()).addFragment(new PaymentFragment().newInstance(), PaymentFragment.getTAG());
+    }
     private String getTotalPrice(){
 
         Double total  = 0.0;
@@ -127,5 +151,12 @@ public class CartFragment extends BaseFragment implements BaseBackPressedListene
     @Override
     public void doBack() {
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        cartFragment = null;
+        BaseApplication.getBaseApplication().setLoadCartSheet(false);
     }
 }

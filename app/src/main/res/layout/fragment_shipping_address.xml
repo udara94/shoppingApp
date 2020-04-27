@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorWhite"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
         android:id="@+id/txt_details"
-        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="25dp"
         android:gravity="center"
         android:textStyle="bold"
         android:textColor="@color/colorPrimaryDark"
-        android:text="Shipping Details"/>
+        android:text="Shipping Address"
+        android:layout_marginTop="50dp"/>
+
     <RelativeLayout
         android:layout_below="@+id/txt_details"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -43,7 +43,7 @@
                         android:id="@+id/input_layout_name"
                         android:layout_width="match_parent"
                         android:layout_height="70dp"
-                        android:hint="Name"
+                        android:hint="Address Line 1"
                         app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
 
                         <com.shopping.item.ui.utils.ListenerEditText
@@ -65,7 +65,7 @@
                         android:id="@+id/input_layout_mobile"
                         android:layout_width="match_parent"
                         android:layout_height="70dp"
-                        android:hint="Mobile"
+                        android:hint="Address Line 2"
                         app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout"
                         android:layout_marginTop="10dp">
 
@@ -73,14 +73,14 @@
                             android:layout_width="match_parent"
                             android:layout_height="55dp"
                             android:layout_gravity="center"
-                            android:id="@+id/txt_from_date"
+                            android:id="@+id/txt_address"
                             android:background="@drawable/edit_text_drawable"
                             android:drawablePadding="20dp"
                             android:paddingLeft="8dp"
                             android:paddingRight="12dp"
                             android:paddingTop="12dp"
                             android:paddingBottom="12dp"
-                            android:inputType="phone"
+                            android:inputType="text"
                             />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -89,7 +89,90 @@
                         android:id="@+id/input_layout_to_date"
                         android:layout_width="match_parent"
                         android:layout_height="70dp"
-                        android:hint="Email"
+                        android:hint="City"
+                        app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout"
+                        android:layout_marginTop="10dp">
+
+                        <com.shopping.item.ui.utils.ListenerEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="55dp"
+                            android:layout_gravity="center"
+                            android:id="@+id/txt_city"
+                            android:background="@drawable/edit_text_drawable"
+                            android:drawablePadding="20dp"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="12dp"
+                            android:paddingTop="12dp"
+                            android:paddingBottom="12dp"
+                            android:inputType="text"
+                            />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_weight="2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+                            android:id="@+id/input_layout_state"
+                            android:layout_width="0dp"
+                            android:layout_height="70dp"
+                            android:hint="State"
+                            app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout"
+                            android:layout_marginTop="10dp">
+
+
+                            <com.shopping.item.ui.utils.ListenerEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="55dp"
+                                android:layout_gravity="center"
+                                android:id="@+id/txt_state"
+                                android:background="@drawable/edit_text_drawable"
+                                android:drawablePadding="20dp"
+                                android:paddingLeft="8dp"
+                                android:paddingRight="12dp"
+                                android:paddingTop="12dp"
+                                android:paddingBottom="12dp"
+                                android:inputType="text"
+                                />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_marginLeft="10dp"
+                            android:id="@+id/input_layout_postal_code"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="70dp"
+                            android:hint="Postal Code"
+                            app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout"
+                            android:layout_marginTop="10dp">
+
+
+                            <com.shopping.item.ui.utils.ListenerEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="55dp"
+                                android:layout_gravity="center"
+                                android:id="@+id/txt_postal_code"
+                                android:background="@drawable/edit_text_drawable"
+                                android:drawablePadding="20dp"
+                                android:paddingLeft="8dp"
+                                android:paddingRight="12dp"
+                                android:paddingTop="12dp"
+                                android:paddingBottom="12dp"
+                                android:inputType="text"
+                                />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/input_layout_country"
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:hint="Country"
                         app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout"
                         android:layout_marginTop="10dp">
 
@@ -98,23 +181,21 @@
                             android:layout_width="match_parent"
                             android:layout_height="55dp"
                             android:layout_gravity="center"
-                            android:id="@+id/txt_email"
+                            android:id="@+id/txt_country"
                             android:background="@drawable/edit_text_drawable"
                             android:drawablePadding="20dp"
                             android:paddingLeft="8dp"
                             android:paddingRight="12dp"
                             android:paddingTop="12dp"
                             android:paddingBottom="12dp"
-                            android:inputType="textEmailAddress"
+                            android:inputType="text"
                             />
 
                     </com.google.android.material.textfield.TextInputLayout>
-
-
 <!--                    <Button-->
 <!--                        android:textSize="20dp"-->
 
-<!--                        android:id="@+id/btn_next"-->
+<!--                        android:id="@+id/btn_search"-->
 <!--                        android:layout_width="match_parent"-->
 <!--                        android:layout_height="wrap_content"-->
 <!--                        android:text="Next"-->

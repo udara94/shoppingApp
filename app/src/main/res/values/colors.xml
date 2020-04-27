@@ -7,5 +7,7 @@
     <color name="transparent">#00000000</color>
     <color name="test">#fff</color>
     <color name="colorTransparent">#00000000</color>
+    <color name="colorGreen">#3AD640</color>
+    <color name="colorBlack">#000000</color>
 
 </resources>

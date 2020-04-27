@@ -108,6 +108,10 @@ public class MainActivity extends BaseActivity {
         System.out.println("=============>> add to cart");
     }
 
+    public void clearCart(){
+        mItemList.clear();
+    }
+
     public List<Item> getCartList(){
         return mItemList;
     }

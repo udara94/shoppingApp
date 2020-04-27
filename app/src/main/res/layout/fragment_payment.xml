@@ -13,6 +13,20 @@
         android:layout_below="@+id/toolbar"
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:textSize="20dp"
+        android:layout_margin="10dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/btn_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/button_drawable"
+        android:text="Next"
+        android:textColor="@color/colorWhite" />
+
+
 
 </RelativeLayout>

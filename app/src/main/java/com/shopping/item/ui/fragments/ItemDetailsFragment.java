@@ -155,6 +155,7 @@ public class ItemDetailsFragment extends BaseFragment implements BaseBackPressed
             mbtnCart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     gotoCartFragment();
                 }
             });

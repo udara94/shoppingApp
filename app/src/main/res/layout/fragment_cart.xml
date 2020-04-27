@@ -39,6 +39,7 @@
 
 
             <RelativeLayout
+                android:id="@+id/checkout_layout"
                 android:layout_marginBottom="10dp"
                 android:layout_centerInParent="true"
                 android:gravity="center"
@@ -55,6 +56,7 @@
                     android:layout_height="wrap_content"
                     android:text=""/>
                 <Button
+                    android:id="@+id/btn_checkout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
