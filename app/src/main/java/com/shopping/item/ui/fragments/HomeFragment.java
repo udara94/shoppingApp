@@ -103,7 +103,7 @@ public class HomeFragment extends BaseFragment implements BaseBackPressedListene
             }
         });
         title.setTypeface(CommonUtils.getInstance().getFont(getActivity(), ApplicationConstants.FONT_ROBOTO_BOLD));
-        title.setText("Ali Express");
+        title.setText("Online Food Order");
         Toolbar parent =(Toolbar) mCustomView.getParent();
         parent.setPadding(0,0,0,0);//for tab otherwise give space in tab
         parent.setContentInsetsAbsolute(0,0);

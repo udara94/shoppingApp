@@ -69,5 +69,16 @@
             app:riv_corner_radius="20dp" />
 
 
+        <RelativeLayout
+            android:id="@+id/remove_item"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:src="@drawable/close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

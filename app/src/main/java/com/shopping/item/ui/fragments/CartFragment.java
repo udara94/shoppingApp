@@ -93,7 +93,7 @@ public class CartFragment extends BaseFragment implements BaseBackPressedListene
                     }
                 }
             });
-            txtTotal.setText("Total $"+getTotalPrice());
+            getTotalPrice();
         }else {
             checkLayout.setVisibility(View.GONE);
         }
@@ -105,18 +105,23 @@ public class CartFragment extends BaseFragment implements BaseBackPressedListene
 
 
 
+
     private void gotoPaymentFragment(){
         ((MainActivity) getActivity()).addFragment(new PaymentFragment().newInstance(), PaymentFragment.getTAG());
     }
-    private String getTotalPrice(){
+    public void getTotalPrice(){
 
         Double total  = 0.0;
         for (Item item: mItemList) {
         String price = item.getItemPrice();
         total = total + Double.parseDouble(price);
         }
-        return total.toString();
+        txtTotal.setText("Total $"+ total.toString());
     }
+
+//    public void removeItem(int position){
+//        mItemList.remove(position);
+//    }
 
     private  void initRecyclerViwe(){
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());

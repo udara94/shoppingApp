@@ -1,6 +1,8 @@
 package com.shopping.item.ui.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,8 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import com.shopping.item.BaseApplication;
 import com.shopping.item.R;
 import com.shopping.item.model.dto.Item;
+import com.shopping.item.ui.activities.MainActivity;
+import com.shopping.item.ui.fragments.CartFragment;
 import com.shopping.item.ui.fragments.HomeFragment;
 
 import java.util.ArrayList;
@@ -33,6 +37,7 @@ public class CartListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private Context mContext;
     private List<Item> itemList = new ArrayList<>();
     private ImageLoader imageLoader;
+    public AlertDialog myAlertDialogOne;
 
 
     public CartListAdapter(Context mContext, List<Item> itemList) {
@@ -44,7 +49,7 @@ public class CartListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_shopping_item, parent, false);
+        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_cart_item, parent, false);
         CartListAdapter.ItemRowHolder itemRowHolder = new CartListAdapter.ItemRowHolder(inflate);
         return itemRowHolder;
     }
@@ -105,6 +110,13 @@ public class CartListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
                 }
             });
+
+            itemRowHolder.removeItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                  grantDeleteItemAlertDialog(itemRowHolder.getAdapterPosition());
+                }
+            });
         }
 
     }
@@ -114,6 +126,49 @@ public class CartListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             itemList.add(messageList.get(i));
             notifyItemInserted(getItemCount());
         }
+
+    }
+
+    private void grantDeleteItemAlertDialog(final int position) {
+
+        if (myAlertDialogOne != null) {
+            myAlertDialogOne.dismiss();
+            myAlertDialogOne = null;
+        }
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mContext);
+        dialogBuilder.setCancelable(false);
+        dialogBuilder.setTitle("Information");
+        dialogBuilder.setMessage("Do you need to remove this Item from cart ?");
+
+
+        dialogBuilder.setPositiveButton("Remove", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                    //remove from the array list
+                ((MainActivity) mContext).removeItem(position);
+                if(CartFragment.cartFragment != null){
+                    //CartFragment.cartFragment.removeItem(position);
+                    CartFragment.cartFragment.getTotalPrice();
+                }
+                //remove from the recycler view
+                removeItem(position);
+
+            }
+        });
+
+        dialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+            }
+        });
+
+        myAlertDialogOne = dialogBuilder.create();
+        myAlertDialogOne.show();
+    }
+
+    public void removeItem(int position){
+        itemList.remove(position);
+        notifyItemRemoved(position);
+        notifyItemChanged(position, itemList.size());
 
     }
 
@@ -129,6 +184,7 @@ public class CartListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         @BindView(R.id.image_url) RoundedImageView imageUrl;
         @BindView(R.id.image_progress) ProgressBar imageProgress;
         @BindView(R.id.parent_layout) RelativeLayout parentLayout;
+        @BindView(R.id.remove_item) RelativeLayout removeItem;
 
 
         public ItemRowHolder(View view) {

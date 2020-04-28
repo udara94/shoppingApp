@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import com.shopping.item.R;
 import com.shopping.item.model.dto.Item;
@@ -106,6 +107,11 @@ public class MainActivity extends BaseActivity {
     public void addToCart(Item item){
         mItemList.add(item);
         System.out.println("=============>> add to cart");
+        Toast.makeText(this, "Item added to the cart", Toast.LENGTH_LONG).show();
+    }
+
+    public void removeItem(int posision){
+        mItemList.remove(posision);
     }
 
     public void clearCart(){

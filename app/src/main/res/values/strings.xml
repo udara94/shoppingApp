@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Shoe Size Converter</string>
+    <string name="app_name">Online Food Order</string>
 
     <!-- Fragment Home-->
     <string name="hint_gender">Select Your Gender</string>
