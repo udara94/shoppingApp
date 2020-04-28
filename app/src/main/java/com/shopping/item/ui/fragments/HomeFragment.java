@@ -95,9 +95,10 @@ public class HomeFragment extends BaseFragment implements BaseBackPressedListene
         mCustomView.findViewById(R.id.shopping_cart).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!BaseApplication.getBaseApplication().isLoadCartSheet()) {
-                    BaseApplication.getBaseApplication().setLoadCartSheet(true);
-                    gotoCartFragment();
+                if (!BaseApplication.getBaseApplication().isLoadBottomSheet()) {
+                    BaseApplication.getBaseApplication().setLoadBottomSheet(true);
+                    //gotoCartFragment();
+                    loadBottomSheet();
                 }
 
             }
@@ -173,5 +174,10 @@ public class HomeFragment extends BaseFragment implements BaseBackPressedListene
 
     public void gotoItemDetailScreen(Item item){
             ((MainActivity) getActivity()).addFragment(new ItemDetailsFragment().newInstance(item), ItemDetailsFragment.getTAG());
+    }
+
+    public  void loadBottomSheet(){
+        ItemPickBottomSheet bottomSheet = new ItemPickBottomSheet().newInstance();
+        bottomSheet.show(getFragmentManager(), ItemPickBottomSheet.getTAG());
     }
 }

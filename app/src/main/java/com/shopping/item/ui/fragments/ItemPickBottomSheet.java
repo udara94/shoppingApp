@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -42,16 +43,16 @@ public class ItemPickBottomSheet extends BottomSheetDialogFragment {
     private  Item mItem;
     private String[] mTypes = {"Black", "White", "Gold"};
 
-    public static ItemPickBottomSheet newInstance(Item item) {
+    public static ItemPickBottomSheet newInstance() {
         ItemPickBottomSheet fragment = new ItemPickBottomSheet();
         Bundle args = new Bundle();
-        args.putParcelable(BUNDLE_EXTRA, Parcels.wrap(item));
         fragment.setArguments(args);
         return fragment;
     }
 
-    @BindView(R.id.btn_select) Button btnSelect;
-    @BindView(R.id.chip_group) ChipGroup chipGroup;
+
+    @BindView(R.id.btn_cart_layout) RelativeLayout btnCart;
+    @BindView(R.id.btn_my_orders_layout) RelativeLayout btnOrders;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,51 +73,41 @@ public class ItemPickBottomSheet extends BottomSheetDialogFragment {
         return rootView;
     }
 
-    private void populateItemTypes() {
 
-        LayoutInflater inflater = LayoutInflater.from(getActivity());
-        for (String text : mTypes) {
-            Chip chip = (Chip) inflater.inflate(R.layout.chip_item, null, false);
-            chip.setText(text);
-//            if (isSubcribeJob(text.getJobType(), subsJobs)) {
-//                //chip.setBackgroundColor(getResources().getColor(R.color.colorOrange));
-//                chip.setSelected(true);
-//                chip.setChecked(true);
-//            }
-
-            chipGroup.addView(chip);
-
-            chip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-//                    btnSave.setVisibility(View.VISIBLE);
-//                    if(isChecked){
-//                        chip.setSelected(true);
-//                        chip.setChecked(true);
-//                    }else {
-//                        chip.setSelected(false);
-//                        chip.setChecked(false);
-//                    }
-                }
-            });
-
-        }
-    }
 
     private void setUpUI() {
-        if(mItem != null){
-            populateItemTypes();
 
-            btnSelect.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ((MainActivity) getActivity()).addToCart(mItem);
+        btnCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!BaseApplication.getBaseApplication().isLoadCartSheet()) {
+                    BaseApplication.getBaseApplication().setLoadCartSheet(true);
                     dismiss();
-                    Toast.makeText(getContext(), "Added to cart", Toast.LENGTH_LONG);
+                    gotoCartFragment();
 
                 }
-            });
-        }
+            }
+        });
+
+        btnOrders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!BaseApplication.getBaseApplication().isLoadMyOrderScreen()) {
+                    BaseApplication.getBaseApplication().setLoadMyOrderScreen(true);
+                    dismiss();
+                    gotoMyOrdersFragment();
+
+                }
+            }
+        });
+    }
+
+    private void gotoCartFragment(){
+        ((MainActivity) getActivity()).addFragment(new CartFragment().newInstance(), CartFragment.getTAG());
+    }
+
+    private void gotoMyOrdersFragment(){
+        ((MainActivity) getActivity()).addFragment(new MyOrderFragment().newInstance(), MyOrderFragment.getTAG());
     }
 
     @Override

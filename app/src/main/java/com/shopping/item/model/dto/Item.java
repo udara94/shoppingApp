@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @Parcel
 public class Item {
+    private String id;
     private String itemName;
     private String itemCode;
     private String itemDescription;

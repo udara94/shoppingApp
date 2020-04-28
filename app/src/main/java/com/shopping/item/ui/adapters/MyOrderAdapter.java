@@ -1,8 +1,6 @@
 package com.shopping.item.ui.adapters;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +9,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -22,8 +19,6 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import com.shopping.item.BaseApplication;
 import com.shopping.item.R;
 import com.shopping.item.model.dto.Item;
-import com.shopping.item.ui.activities.MainActivity;
-import com.shopping.item.ui.fragments.CartFragment;
 import com.shopping.item.ui.fragments.HomeFragment;
 
 import java.util.ArrayList;
@@ -32,15 +27,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CartListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
+public class MyOrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;
     private List<Item> itemList = new ArrayList<>();
     private ImageLoader imageLoader;
-    public AlertDialog myAlertDialogOne;
 
 
-    public CartListAdapter(Context mContext, List<Item> itemList) {
+    public MyOrderAdapter(Context mContext, List<Item> itemList) {
         this.mContext = mContext;
         this.itemList = itemList;
         this.imageLoader = ImageLoader.getInstance();
@@ -49,15 +42,15 @@ public class CartListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_cart_item, parent, false);
-        CartListAdapter.ItemRowHolder itemRowHolder = new CartListAdapter.ItemRowHolder(inflate);
+        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_ordes_item, parent, false);
+        MyOrderAdapter.ItemRowHolder itemRowHolder = new MyOrderAdapter.ItemRowHolder(inflate);
         return itemRowHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof CartListAdapter.ItemRowHolder) {
-            final CartListAdapter.ItemRowHolder itemRowHolder = (CartListAdapter.ItemRowHolder) holder;
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof MyOrderAdapter.ItemRowHolder) {
+            final MyOrderAdapter.ItemRowHolder itemRowHolder = (MyOrderAdapter.ItemRowHolder) holder;
             final Item item = itemList.get(position);
 
 
@@ -102,80 +95,23 @@ public class CartListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             itemRowHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (HomeFragment.homeFragment != null) {
-                        if (!BaseApplication.getBaseApplication().isLoadItemDetailsScreen()) {
-                            BaseApplication.getBaseApplication().setLoadItemDetailsScreen(true);
-                            HomeFragment.homeFragment.gotoItemDetailScreen(item);
-                        }
-                    }
-                }
-            });
-
-            itemRowHolder.removeItem.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                  grantDeleteItemAlertDialog(itemRowHolder.getAdapterPosition(), item);
+//                    if (HomeFragment.homeFragment != null) {
+//                        if (!BaseApplication.getBaseApplication().isLoadItemDetailsScreen()) {
+//                            BaseApplication.getBaseApplication().setLoadItemDetailsScreen(true);
+//                            HomeFragment.homeFragment.gotoItemDetailScreen(item);
+//                        }
+//                    }
                 }
             });
         }
 
     }
 
-    public void updateData(List<Item> messageList, int flag) {
-        if(flag == 0){
-            for (int i = 0; i < messageList.size(); i++) {
-                itemList.add(messageList.get(i));
-                notifyItemInserted(getItemCount());
-            }
-        }else {
-            itemList.clear();
-            notifyDataSetChanged();
+    public void updateData(List<Item> messageList) {
+        for (int i = 0; i < messageList.size(); i++) {
+            itemList.add(messageList.get(i));
+            notifyItemInserted(getItemCount());
         }
-
-
-    }
-
-    private void grantDeleteItemAlertDialog(final int position, Item item) {
-
-        if (myAlertDialogOne != null) {
-            myAlertDialogOne.dismiss();
-            myAlertDialogOne = null;
-        }
-
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mContext);
-        dialogBuilder.setCancelable(false);
-        dialogBuilder.setTitle("Information");
-        dialogBuilder.setMessage("Do you need to remove this Item from cart ?");
-
-
-        dialogBuilder.setPositiveButton("Remove", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                    //remove from the array list
-                //((MainActivity) mContext).removeItem(position);
-                if(CartFragment.cartFragment != null){
-                    CartFragment.cartFragment.removeItem(position);
-                    CartFragment.cartFragment.removeFromCart(item.getId());
-                    //CartFragment.cartFragment.getTotalPrice();
-                }
-                //remove from the recycler view
-                removeItem(position);
-
-            }
-        });
-
-        dialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-            }
-        });
-
-        myAlertDialogOne = dialogBuilder.create();
-        myAlertDialogOne.show();
-    }
-
-    public void removeItem(int position){
-        itemList.remove(position);
-        notifyItemRemoved(position);
-        notifyItemChanged(position, itemList.size());
 
     }
 
@@ -186,12 +122,16 @@ public class CartListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public class ItemRowHolder extends RecyclerView.ViewHolder {
         //@BindView(R.id.txt_source) TextView sourceName;
-        @BindView(R.id.txt_item_name) TextView itemName;
-        @BindView(R.id.txt_item_price) TextView itemPrice;
-        @BindView(R.id.image_url) RoundedImageView imageUrl;
-        @BindView(R.id.image_progress) ProgressBar imageProgress;
-        @BindView(R.id.parent_layout) RelativeLayout parentLayout;
-        @BindView(R.id.remove_item) RelativeLayout removeItem;
+        @BindView(R.id.txt_item_name)
+        TextView itemName;
+        @BindView(R.id.txt_item_price)
+        TextView itemPrice;
+        @BindView(R.id.image_url)
+        RoundedImageView imageUrl;
+        @BindView(R.id.image_progress)
+        ProgressBar imageProgress;
+        @BindView(R.id.parent_layout)
+        RelativeLayout parentLayout;
 
 
         public ItemRowHolder(View view) {

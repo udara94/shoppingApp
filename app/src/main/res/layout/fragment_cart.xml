@@ -18,6 +18,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/list_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -35,7 +36,7 @@
                     android:paddingBottom="70dp"
                     android:scrollbars="none" />
 
-            </androidx.core.widget.NestedScrollView>>
+            </androidx.core.widget.NestedScrollView>
 
 
             <RelativeLayout
@@ -66,6 +67,17 @@
                     android:background="@drawable/button_drawable"
                     android:padding="10dp"/>
             </RelativeLayout>
+        </RelativeLayout>
+        <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/empty_cart_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:src="@drawable/cart_is_empty"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

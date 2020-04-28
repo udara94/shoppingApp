@@ -12,10 +12,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -56,6 +59,7 @@ public class ItemDetailsFragment extends BaseFragment implements BaseBackPressed
     public static  ItemDetailsFragment itemDetailsFragment;
     private  Item mItem;
     private ImageLoader imageLoader;
+    private DatabaseReference mDatabaseReference;
 
     @BindView(R.id.txt_item_name) TextView txtItemName;
     @BindView(R.id.txt_item_code) TextView txtItemCode;
@@ -99,6 +103,9 @@ public class ItemDetailsFragment extends BaseFragment implements BaseBackPressed
 
     @Override
     protected void setUpUI() {
+
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference("cart");
+
         if (mItem != null) {
 
             mImageView.setImageResource(R.drawable.icon);
@@ -148,7 +155,8 @@ public class ItemDetailsFragment extends BaseFragment implements BaseBackPressed
             btnAddToCart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                        ((MainActivity) getActivity()).addToCart(mItem);
+                       // ((MainActivity) getActivity()).addToCart(mItem);
+                    addToCart();
                 }
             });
 
@@ -161,6 +169,16 @@ public class ItemDetailsFragment extends BaseFragment implements BaseBackPressed
             });
         }
     }
+
+
+    private  void addToCart(){
+        String id = mDatabaseReference.push().getKey();
+        mItem.setId(id);
+        mDatabaseReference.child(id).setValue(mItem);
+        Toast.makeText(getActivity(), "Item added to the cart", Toast.LENGTH_LONG).show();
+
+    }
+
 
     private void gotoCartFragment(){
         ((MainActivity) getActivity()).addFragment(new CartFragment().newInstance(), CartFragment.getTAG());

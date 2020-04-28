@@ -35,6 +35,10 @@ public class BaseApplication  extends MultiDexApplication {
     @Setter
     private boolean loadCartSheet = false;
 
+    @Getter
+    @Setter
+    private boolean loadMyOrderScreen = false;
+
     @Override
     public void onCreate() {
         super.onCreate();

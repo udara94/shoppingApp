@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.shopping.item.R;
 import com.shopping.item.model.dto.Item;
+import com.shopping.item.ui.fragments.CartFragment;
 import com.shopping.item.ui.fragments.HomeFragment;
 import com.shopping.item.utils.BaseBackPressedListener;
 
@@ -104,15 +105,22 @@ public class MainActivity extends BaseActivity {
         this.onBackPressedListener = onBackPressedListener;
     }
 
-    public void addToCart(Item item){
-        mItemList.add(item);
-        System.out.println("=============>> add to cart");
-        Toast.makeText(this, "Item added to the cart", Toast.LENGTH_LONG).show();
-    }
+//    public void addToCart(Item item){
+//        mItemList.add(item);
+//        System.out.println("=============>> add to cart");
+//        Toast.makeText(this, "Item added to the cart", Toast.LENGTH_LONG).show();
+//    }
 
-    public void removeItem(int posision){
-        mItemList.remove(posision);
-    }
+//    public void removeItem(int posision){
+//        if(mItemList.size() > 1){
+//            mItemList.remove(posision);
+//        }else {
+//            if(CartFragment.cartFragment != null){
+//                CartFragment.cartFragment.toggleView(true);
+//            }
+//        }
+//
+//    }
 
     public void clearCart(){
         mItemList.clear();
