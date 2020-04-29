@@ -56,6 +56,7 @@ public class CartFragment extends BaseFragment implements BaseBackPressedListene
 
     RecyclerView mRecyclerView;
     private DatabaseReference mDatabaseReference;
+    Double mTotal;
 
 
     @BindView(R.id.txt_total)
@@ -119,6 +120,26 @@ public class CartFragment extends BaseFragment implements BaseBackPressedListene
         }
     }
 
+    public void performAddOrReduce(String itemId, int qty, boolean isReduce){
+        setProgressDialog(true);
+        int quantity;
+        quantity = qty;
+        if(isReduce){
+            if(quantity > 1){
+                quantity = quantity -1;
+            }
+        }else {
+            quantity = quantity + 1;
+        }
+        updateQuantity(itemId, quantity);
+        getCartItemList();
+    }
+
+    private void updateQuantity(String id, int qty){
+
+        mDatabaseReference.child(id).child("itemQty").setValue(qty);
+        mItemList.clear();
+    }
     private void getCartItemList() {
 
         cartListAdapter.updateData(null, 1);
@@ -182,7 +203,7 @@ public class CartFragment extends BaseFragment implements BaseBackPressedListene
 //    }
 
     private void gotoPaymentFragment() {
-        ((MainActivity) getActivity()).addFragment(new PaymentFragment().newInstance(mItemList), PaymentFragment.getTAG());
+        ((MainActivity) getActivity()).addFragment(new PaymentFragment().newInstance(mItemList, mTotal), PaymentFragment.getTAG());
     }
 
     public void getTotalPrice() {
@@ -190,9 +211,11 @@ public class CartFragment extends BaseFragment implements BaseBackPressedListene
         Double total = 0.0;
         for (Item item : mItemList) {
             String price = item.getItemPrice();
-            total = total + Double.parseDouble(price);
+            int quantity = item.getItemQty();
+            total = total + (Double.parseDouble(price) * quantity);
         }
-        txtTotal.setText("Total $" + total.toString());
+        mTotal = total;
+        txtTotal.setText("Total $" + String.format("%.2f", total));
     }
 
     public void removeItem(int position) {

@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
@@ -29,6 +30,7 @@ import com.shopping.item.utils.BaseBackPressedListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MyOrderFragment  extends BaseFragment implements BaseBackPressedListener.OnBackPressedListener {
@@ -46,6 +48,10 @@ public class MyOrderFragment  extends BaseFragment implements BaseBackPressedLis
 
     RecyclerView mRecyclerView;
     private DatabaseReference mDatabaseReference;
+    @BindView(R.id.list_layout)
+    RelativeLayout listLayout;
+    @BindView(R.id.empty_cart_layout)
+    RelativeLayout emptyLayout;
 
     public static String getTAG() {
         return "MyOrderFragment";
@@ -79,6 +85,16 @@ public class MyOrderFragment  extends BaseFragment implements BaseBackPressedLis
         performGetOrderRequest();
     }
 
+    public void toggleView(boolean isEmpty) {
+        if (isEmpty) {
+            emptyLayout.setVisibility(View.VISIBLE);
+            listLayout.setVisibility(View.GONE);
+        } else {
+            listLayout.setVisibility(View.VISIBLE);
+            emptyLayout.setVisibility(View.GONE);
+        }
+    }
+
     private void performGetOrderRequest() {
         if (CommonUtils.getInstance().isNetworkConnected()) {
             setProgressDialog(true);
@@ -101,7 +117,10 @@ public class MyOrderFragment  extends BaseFragment implements BaseBackPressedLis
                     }
                 }
                 if(mItemList.size() > 0 ){
+                    toggleView(false);
                     showItemList(mItemList);
+                }else {
+                    toggleView(true);
                 }
                 setProgressDialog(false);
             }

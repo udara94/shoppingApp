@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -65,7 +66,12 @@ public class CartListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 itemRowHolder.itemName.setText(item.getItemName());
 
             if (item.getItemPrice() != null && !item.getItemPrice().isEmpty())
-                itemRowHolder.itemPrice.setText(item.getItemPrice());
+                itemRowHolder.itemPrice.setText("$ "+item.getItemPrice());
+            if(item.getItemQty() != 0){
+                itemRowHolder.txtQuantity.setText(Integer.toString(item.getItemQty()));
+            }
+
+
 
 
             itemRowHolder.imageUrl.setImageResource(R.drawable.icon);
@@ -115,6 +121,24 @@ public class CartListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 @Override
                 public void onClick(View v) {
                   grantDeleteItemAlertDialog(itemRowHolder.getAdapterPosition(), item);
+                }
+            });
+
+            itemRowHolder.btnAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(CartFragment.cartFragment != null){
+                        CartFragment.cartFragment.performAddOrReduce(item.getId(),item.getItemQty(), false );
+                    }
+                }
+            });
+
+            itemRowHolder.btnReduce.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(CartFragment.cartFragment != null){
+                        CartFragment.cartFragment.performAddOrReduce(item.getId(),item.getItemQty(), true );
+                    }
                 }
             });
         }
@@ -192,6 +216,10 @@ public class CartListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         @BindView(R.id.image_progress) ProgressBar imageProgress;
         @BindView(R.id.parent_layout) RelativeLayout parentLayout;
         @BindView(R.id.remove_item) RelativeLayout removeItem;
+        @BindView(R.id.btn_add) Button btnAdd;
+        @BindView(R.id.btn_reduce) Button btnReduce;
+        @BindView(R.id.txt_quantity) TextView txtQuantity;
+
 
 
         public ItemRowHolder(View view) {

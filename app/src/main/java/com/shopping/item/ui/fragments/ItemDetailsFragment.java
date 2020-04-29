@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -58,6 +59,7 @@ public class ItemDetailsFragment extends BaseFragment implements BaseBackPressed
 
     public static  ItemDetailsFragment itemDetailsFragment;
     private  Item mItem;
+    private int mQuantity;
     private ImageLoader imageLoader;
     private DatabaseReference mDatabaseReference;
 
@@ -71,6 +73,11 @@ public class ItemDetailsFragment extends BaseFragment implements BaseBackPressed
     @BindView(R.id.image_progress) ProgressBar imageProgress;
     @BindView(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingToolbarLayout;
     @BindView(R.id.btn_add_to_cart) Button btnAddToCart;
+
+    @BindView(R.id.txt_quantity) EditText txtQuantity;
+    @BindView(R.id.btn_reduce) Button btnReduce;
+    @BindView(R.id.btn_add) Button btnAdd;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -105,6 +112,8 @@ public class ItemDetailsFragment extends BaseFragment implements BaseBackPressed
     protected void setUpUI() {
 
         mDatabaseReference = FirebaseDatabase.getInstance().getReference("cart");
+        txtQuantity.setText("1");
+        mQuantity = 1;
 
         if (mItem != null) {
 
@@ -167,13 +176,42 @@ public class ItemDetailsFragment extends BaseFragment implements BaseBackPressed
                     gotoCartFragment();
                 }
             });
+
+            btnAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    performAddOrReduce(false);
+                }
+            });
+
+            btnReduce.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    performAddOrReduce(true);
+                }
+            });
         }
     }
 
-
+    private void performAddOrReduce(boolean isReduce){
+        int quantity;
+        quantity = Integer.parseInt(txtQuantity.getText().toString());
+        if(isReduce){
+            if(quantity > 1){
+                quantity = quantity -1;
+                txtQuantity.setText(Integer.toString(quantity));
+                mQuantity = quantity;
+            }
+        }else {
+            quantity = quantity + 1;
+            txtQuantity.setText(Integer.toString(quantity));
+            mQuantity = quantity;
+        }
+    }
     private  void addToCart(){
         String id = mDatabaseReference.push().getKey();
         mItem.setId(id);
+        mItem.setItemQty(mQuantity);
         mDatabaseReference.child(id).setValue(mItem);
         Toast.makeText(getActivity(), "Item added to the cart", Toast.LENGTH_LONG).show();
 

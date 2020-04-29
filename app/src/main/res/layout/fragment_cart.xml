@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/district_layout"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:clickable="true">
 
     <include
         android:id="@+id/toolbar"
@@ -40,8 +41,8 @@
 
 
             <RelativeLayout
+                android:background="@color/colorWhite"
                 android:id="@+id/checkout_layout"
-                android:layout_marginBottom="10dp"
                 android:layout_centerInParent="true"
                 android:gravity="center"
                 android:layout_alignParentBottom="true"

@@ -49,11 +49,13 @@ public class PaymentFragment extends BaseFragment implements BaseBackPressedList
 
     final String TAG = PaymentFragment.this.getClass().getSimpleName();
     private static String BUNDLE_EXTRA = "BUNDLE_EXTRA";
+    private static String TOTAL = "TOTAL";
 
-    public static PaymentFragment newInstance(List<Item> itemList) {
+    public static PaymentFragment newInstance(List<Item> itemList, Double total) {
         PaymentFragment fragment = new PaymentFragment();
         Bundle args = new Bundle();
         args.putParcelable(BUNDLE_EXTRA, Parcels.wrap(itemList));
+        args.putDouble(TOTAL, total);
         fragment.setArguments(args);
         return fragment;
     }
@@ -64,6 +66,7 @@ public class PaymentFragment extends BaseFragment implements BaseBackPressedList
 
     public static PaymentFragment paymentFragment;
     private List<Item> mItemList = new ArrayList<>();
+    private Double mTotal;
 
 
     @BindView(R.id.shipping_details_layout) RelativeLayout shippingDetailsLayout;
@@ -83,6 +86,8 @@ public class PaymentFragment extends BaseFragment implements BaseBackPressedList
     @BindView(R.id.txt_card_no) EditText txtCardNo;
     @BindView(R.id.txt_cvc) EditText txtCVC;
     @BindView(R.id.btn_next) Button btnNext;
+
+    @BindView(R.id.txt_total_payment) TextView txtTotalPayment;
 
     private String lblName;
     private String lblMobile;
@@ -108,6 +113,7 @@ public class PaymentFragment extends BaseFragment implements BaseBackPressedList
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mItemList = Parcels.unwrap(getArguments().getParcelable(BUNDLE_EXTRA));
+            mTotal = getArguments().getDouble(TOTAL);
         }
     }
     @Override
@@ -324,6 +330,7 @@ public class PaymentFragment extends BaseFragment implements BaseBackPressedList
                 paymentLayout.setVisibility(View.VISIBLE);
                 paymentSuccessLayout.setVisibility(View.GONE);
                 btnNext.setText("Pay Now");
+                txtTotalPayment.setText("$ " + String.format("%.2f", mTotal));
                 break;
             case 3:
                 shippingDetailsLayout.setVisibility(View.GONE);
