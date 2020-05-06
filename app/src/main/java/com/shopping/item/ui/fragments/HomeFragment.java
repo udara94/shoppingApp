@@ -129,6 +129,7 @@ public class HomeFragment extends BaseFragment implements BaseBackPressedListene
         }
     }
 
+    //get food items from the database
     private void getItemList(){
 
         mDatabaseReference.addValueEventListener(new ValueEventListener() {

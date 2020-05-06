@@ -208,6 +208,8 @@ public class ItemDetailsFragment extends BaseFragment implements BaseBackPressed
             mQuantity = quantity;
         }
     }
+
+    //add to items to the db
     private  void addToCart(){
         String id = mDatabaseReference.push().getKey();
         mItem.setId(id);

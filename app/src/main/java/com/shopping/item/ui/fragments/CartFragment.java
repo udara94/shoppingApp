@@ -135,8 +135,8 @@ public class CartFragment extends BaseFragment implements BaseBackPressedListene
         getCartItemList();
     }
 
+    //update quantity
     private void updateQuantity(String id, int qty){
-
         mDatabaseReference.child(id).child("itemQty").setValue(qty);
         mItemList.clear();
     }
@@ -228,6 +228,7 @@ public class CartFragment extends BaseFragment implements BaseBackPressedListene
         }
     }
 
+    //delete item from cart
     public void removeFromCart(String id) {
         Query deleteQuery = mDatabaseReference.orderByChild("id").equalTo(id);
         deleteQuery.addListenerForSingleValueEvent(new ValueEventListener() {

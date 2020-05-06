@@ -281,6 +281,8 @@ public class PaymentFragment extends BaseFragment implements BaseBackPressedList
             txtCountry.setText(mShippingDetails.getLblCountry());
         }
     }
+
+    //update user details
     private void addOrUpdateUseDetails(){
         ShippingDetails shippingDetails = new ShippingDetails();
         shippingDetails.setLblName(lblName);
@@ -293,9 +295,9 @@ public class PaymentFragment extends BaseFragment implements BaseBackPressedList
         shippingDetails.setLblPostalCode(lblPostalCode);
         shippingDetails.setLblCountry(lblCountry);
         mDatabaseReference.setValue(shippingDetails);
-      //  Toast.makeText(getActivity(), "Item added to the cart", Toast.LENGTH_LONG).show();
     }
 
+    //add order to db
     private void addOrder(){
         if( mItemList.size() > 0){
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("order");

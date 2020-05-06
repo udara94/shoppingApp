@@ -105,6 +105,7 @@ public class MyOrderFragment  extends BaseFragment implements BaseBackPressedLis
         }
     }
 
+    //get order from db
     private void getItemList(){
 
         mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
